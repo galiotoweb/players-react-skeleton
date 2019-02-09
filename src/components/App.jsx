@@ -1,5 +1,9 @@
 import React from 'react';
+import Header from './Header';
 
-const App = () => <div>Replace me with something you can be proud of.</div>;
-
+const App = () => (
+  <React.Fragment>
+    <Header title="Mad Libs" subheading="Welcome to My App" />
+  </React.Fragment>
+);
 export default App;
