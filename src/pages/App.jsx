@@ -10,7 +10,7 @@ import NotFound from './NotFound';
 
 const App = () => (
   <React.Fragment>
-    <Header title="Mad Libs" subheading="Welcome to My App" />
+    <Header title="Mad Libs" />
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
