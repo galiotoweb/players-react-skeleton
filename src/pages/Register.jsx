@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import RegisterForm from '../components/RegisterForm';
 
 class Register extends Component {
   constructor(props) {
@@ -56,76 +57,22 @@ class Register extends Component {
   }
 
   render() {
+    const newUser = {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      email: this.state.email,
+      password: this.state.password,
+      confirm_password: this.state.confirm_password,
+    };
     return (
       <React.Fragment>
         <h1>Register Page</h1>
         <p>Register a New Player</p>
-        <form className="form-register" onSubmit={this.handleSubmit}>
-          <label htmlFor="firstName">
-            First Name
-            <input
-              label="First Name"
-              type="text"
-              id="firstName"
-              name="first_name"
-              required
-              value={this.state.first_name}
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <label htmlFor="last_name">
-            Last Name
-            <input
-              label="Last Name"
-              type="text"
-              id="lastName"
-              name="last_name"
-              required
-              value={this.state.last_name}
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <label htmlFor="email">
-            Email
-            <input
-              label="Email"
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={this.state.email}
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <label htmlFor="password">
-            Password
-            <input
-              label="Password"
-              type="password"
-              id="password"
-              name="password"
-              required
-              value={this.state.password}
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <label htmlFor="confirmPassword">
-            Confirm Password
-            <input
-              label="Confirm Password"
-              type="password"
-              id="confirmPassword"
-              name="confirm_password"
-              required
-              value={this.state.confirm_password}
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <button>Cancel</button>
-          <button type="submit" id="register">
-            Register
-          </button>
-        </form>
+        <RegisterForm
+          data={newUser}
+          submit={this.handleSubmit}
+          change={this.handleInputChange}
+        />
       </React.Fragment>
     );
   }
