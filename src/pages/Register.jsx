@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import RegisterForm from '../components/RegisterForm';
 
 class Register extends Component {
@@ -49,10 +49,9 @@ class Register extends Component {
       )
       .then((response) => {
         if (response.data.success === true) {
-          this.props.history.push('/roster');
-        } else {
-          console.log('whomp whomp');
+          return <Redirect to="/roster" />;
         }
+        console.log('whomp whomp');
       });
   }
 
@@ -77,9 +76,5 @@ class Register extends Component {
     );
   }
 }
-
-Register.propTypes = {
-  history: PropTypes.shape.isRequired,
-};
 
 export default Register;
