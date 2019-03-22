@@ -33,7 +33,7 @@ class Login extends React.Component {
     axios
       .post(
         'https://players-api.developer.alchemy.codes/api/login',
-        JSON.stringify(data),
+        JSON.stringify(userInfo),
         {
           headers: {
             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ class Login extends React.Component {
         },
       )
       .then((response) => {
-        console.log('success');
+        console.log(response, 'success');
       });
   }
 
