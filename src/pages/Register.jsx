@@ -12,9 +12,24 @@ class Register extends Component {
       email: '',
       password: '',
       confirm_password: '',
+      loggedIn: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.checkLoggedIn();
+  }
+
+  checkLoggedIn() {
+    const token = localStorage.getItem('token');
+    if (token !== '') {
+      this.setState({ loggedIn: true });
+    } else {
+      // handle empty string
+      this.setState({ loggedIn: false });
+    }
   }
 
   handleInputChange(event) {
@@ -49,9 +64,11 @@ class Register extends Component {
       )
       .then((response) => {
         if (response.data.success === true) {
-          return <Redirect to="/roster" />;
+          this.setState({
+            loggedIn: true,
+          });
+          localStorage.setItem('token', response.data.token);
         }
-        console.log('whomp whomp');
       });
   }
 
@@ -67,11 +84,15 @@ class Register extends Component {
       <React.Fragment>
         <h1>Register Page</h1>
         <p>Register a New Player</p>
-        <RegisterForm
-          data={newUser}
-          submit={this.handleSubmit}
-          change={this.handleInputChange}
-        />
+        {this.state.loggedIn ? (
+          <Redirect to="/roster" />
+        ) : (
+          <RegisterForm
+            data={newUser}
+            submit={this.handleSubmit}
+            change={this.handleInputChange}
+          />
+        )}
       </React.Fragment>
     );
   }
