@@ -7,24 +7,54 @@ class Roster extends React.Component {
     super();
     this.state = {
       players: [],
+      loggedIn: false,
     };
   }
 
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/users').then((res) => {
-      const players = res.data;
-      this.setState({ players });
-    });
+    this.checkLoggedIn();
+
+    const token = localStorage.getItem('token');
+    axios
+      .get('https://players-api.developer.alchemy.codes/api/players', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('players are here', response);
+        if (response.data.success === true) {
+          this.setState({
+            players: response.data.players,
+          });
+        }
+      });
   }
+
+  checkLoggedIn() {
+    const token = localStorage.getItem('token');
+    if (token !== '') {
+      this.setState({ loggedIn: true });
+    } else {
+      this.setState({ loggedIn: false });
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
         <h1>Player Roster</h1>
-        <ul>
-          {this.state.players.map(player => (
-            <li>{player.name}</li>
-          ))}
-        </ul>
+        {this.state.loggedIn ? (
+          <ul>
+            {this.state.players.map(player => (
+              <li>{player.name}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>
+            Please <Link to="/login">login</Link> to see your list of players
+          </p>
+        )}
         <Link to="/player/new">
           <button>Add A New Player</button>
         </Link>
