@@ -9,30 +9,15 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      loggedIn: false,
+      formSuccess: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    this.checkLoggedIn();
-  }
-
-  checkLoggedIn() {
-    const token = localStorage.getItem('token');
-    if (token !== '') {
-      this.setState({ loggedIn: true });
-    } else {
-      // handle empty string
-      this.setState({ loggedIn: false });
-    }
-  }
-
   handleInputChange(event) {
     const { target } = event;
-    const { value } = target;
-    const { name } = target;
+    const { value, name } = target;
 
     this.setState({
       [name]: value,
@@ -58,7 +43,7 @@ class Login extends React.Component {
       )
       .then((response) => {
         this.setState({
-          loggedIn: true,
+          formSuccess: true,
         });
         localStorage.setItem('token', response.data.token);
       });
@@ -70,18 +55,18 @@ class Login extends React.Component {
       password: this.state.password,
     };
 
+    if (this.state.formSuccess === true) {
+      return <Redirect to="/roster" />;
+    }
+
     return (
       <React.Fragment>
         <h1>Log in</h1>
-        {this.state.loggedIn ? (
-          <Redirect to="/roster" />
-        ) : (
-          <LoginForm
-            data={userInfo}
-            submit={this.handleSubmit}
-            change={this.handleInputChange}
-          />
-        )}
+        <LoginForm
+          data={userInfo}
+          submit={this.handleSubmit}
+          change={this.handleInputChange}
+        />
       </React.Fragment>
     );
   }

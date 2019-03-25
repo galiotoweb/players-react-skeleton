@@ -7,13 +7,10 @@ class Roster extends React.Component {
     super();
     this.state = {
       players: [],
-      loggedIn: false,
     };
   }
 
   componentDidMount() {
-    this.checkLoggedIn();
-
     const token = localStorage.getItem('token');
     axios
       .get('https://players-api.developer.alchemy.codes/api/players', {
@@ -31,30 +28,15 @@ class Roster extends React.Component {
       });
   }
 
-  checkLoggedIn() {
-    const token = localStorage.getItem('token');
-    if (token !== '') {
-      this.setState({ loggedIn: true });
-    } else {
-      this.setState({ loggedIn: false });
-    }
-  }
-
   render() {
     return (
       <React.Fragment>
         <h1>Player Roster</h1>
-        {this.state.loggedIn ? (
-          <ul>
-            {this.state.players.map(player => (
-              <li>{player.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>
-            Please <Link to="/login">login</Link> to see your list of players
-          </p>
-        )}
+        <ul>
+          {this.state.players.map(player => (
+            <li>{player.name}</li>
+          ))}
+        </ul>
         <Link to="/player/new">
           <button>Add A New Player</button>
         </Link>
