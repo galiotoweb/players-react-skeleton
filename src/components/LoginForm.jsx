@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const LoginForm = props => (
+const LoginForm = ({
+  email, password, submit, change,
+}) => (
   <React.Fragment>
-    <form className="form-login" onSubmit={props.submit}>
+    <form className="form-login" onSubmit={submit}>
       <label htmlFor="email">
         Email
         <input
@@ -12,8 +14,8 @@ const LoginForm = props => (
           id="email"
           name="email"
           required
-          value={props.email}
-          onChange={props.change}
+          value={email}
+          onChange={change}
         />
       </label>
       <label htmlFor="password">
@@ -24,8 +26,8 @@ const LoginForm = props => (
           id="password"
           name="password"
           required
-          value={props.password}
-          onChange={props.change}
+          value={password}
+          onChange={change}
         />
       </label>
       {/* <button>Cancel</button> */}
